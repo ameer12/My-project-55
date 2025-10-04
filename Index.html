@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Management System</title>
+
+    <!-- Link the CSS file for website styling -->
+    <link rel="stylesheet" href="styles/style.css">
+</head>
+<body>
+
+    <!-- Header section with logo and title -->
+    <header>
+        <img src="assets/logo.png" alt="Logo" id="logo">
+        <h1>Asset Management System</h1>
+    </header>
+
+    <!-- Section for actions that interact with the smart contract -->
+    <section>
+        <button id="approveButton">Approve Token</button>
+        <button id="transferButton">Transfer Funds</button>
+        <button id="getAttestationButton">Get AML Attestation</button>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Asset Management System</p>
+    </footer>
+
+    <!-- Link to JavaScript that connects to MetaMask -->
+    <script src="src/wallet.js"></script>
+
+    <!-- Link to JavaScript that contains smart contract functions -->
+    <script src="src/functions.js"></script>
+
+    <!-- Include the ABI of the smart contract -->
+    <script>
+        const abi = require('./src/abi.json');  // Load the smart contract ABI from the JSON file
+    </script>
+
+</body>
+                                     </html>
