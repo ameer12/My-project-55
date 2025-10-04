@@ -1,7 +1,6 @@
 // src/wallet.js
-// Simple wallet connector using Ethers.js v5 (included in index.html)
+// Wallet connector using Ethers.js v5 (must include ethers.js in index.html)
 (async () => {
-  // We'll expose a global `app` object for other scripts (functions.js) to use.
   window.app = {
     provider: null,
     signer: null,
@@ -12,49 +11,62 @@
 
   async function connectWallet() {
     try {
-      if (typeof window.ethereum === 'undefined') {
+      if (!window.ethereum) {
         alert('Please install MetaMask!');
         return null;
       }
-      // Request accounts
+
+      // Request account access from MetaMask
       await window.ethereum.request({ method: 'eth_requestAccounts' });
-      // Create ethers provider (v5 style uses ethers.providers.Web3Provider)
+
+      // Create provider and signer
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const account = await signer.getAddress();
 
+      // Store globally
       window.app.provider = provider;
       window.app.signer = signer;
       window.app.account = account;
 
-      console.log('Connected account:', account);
-      document.getElementById('status').innerText = 'Connected: ' + account;
+      console.log('✅ Wallet connected:', account);
+      const statusEl = document.getElementById('status');
+      if (statusEl) statusEl.innerText = 'Connected: ' + account;
+
       return account;
     } catch (err) {
-      console.error('connectWallet error', err);
-      document.getElementById('status').innerText = 'Wallet connection error';
+      console.error('❌ connectWallet error:', err);
+      const statusEl = document.getElementById('status');
+      if (statusEl) statusEl.innerText = 'Wallet connection error';
       return null;
     }
   }
 
   function getSigner() {
+    if (!window.app.signer && window.ethereum) {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      window.app.provider = provider;
+      window.app.signer = provider.getSigner();
+    }
     return window.app.signer;
   }
 
-  // auto connect if accounts already available
-  if (typeof window.ethereum !== 'undefined') {
+  // Auto-connect if MetaMask already authorized
+  if (window.ethereum) {
     try {
-      window.ethereum.request({ method: 'eth_accounts' }).then(accounts => {
-        if (accounts && accounts.length > 0) {
-          // set minimal info (don't auto-request popup)
-          window.app.account = accounts[0];
-          window.app.provider = new ethers.providers.Web3Provider(window.ethereum);
-          window.app.signer = window.app.provider.getSigner();
-          document.getElementById('status').innerText = 'Connected: ' + window.app.account;
-        }
-      });
+      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+      if (accounts && accounts.length > 0) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        window.app.provider = provider;
+        window.app.signer = signer;
+        window.app.account = accounts[0];
+        console.log('🔄 Auto-connected to', accounts[0]);
+        const statusEl = document.getElementById('status');
+        if (statusEl) statusEl.innerText = 'Connected: ' + accounts[0];
+      }
     } catch (e) {
-      console.warn('No auto accounts');
+      console.warn('⚠️ Auto-connect failed:', e);
     }
   }
 })();
