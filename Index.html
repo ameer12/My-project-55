@@ -3,40 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management System</title>
-
-    <!-- Link the CSS file for website styling -->
+    <title>Asset Management DApp</title>
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 
-    <!-- Header section with logo and title -->
     <header>
-        <img src="assets/logo.png" alt="Logo" id="logo">
-        <h1>Asset Management System</h1>
+        <h1>Asset Management Smart Contract</h1>
     </header>
 
-    <!-- Section for actions that interact with the smart contract -->
-    <section>
-        <button id="approveButton">Approve Token</button>
-        <button id="transferButton">Transfer Funds</button>
-        <button id="getAttestationButton">Get AML Attestation</button>
-    </section>
+    <main>
+        <button id="connectWallet">Connect Wallet</button>
+        <br><br>
+
+        <button id="approveToken">Approve Token</button>
+        <button id="transferFunds">Transfer Funds</button>
+        <button id="getAttestation">Get AML Report</button>
+
+        <div id="status"></div>
+    </main>
 
     <footer>
-        <p>&copy; 2025 Asset Management System</p>
+        <p>&copy; 2025 Asset Manager DApp</p>
     </footer>
 
-    <!-- Link to JavaScript that connects to MetaMask -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
     <script src="src/wallet.js"></script>
-
-    <!-- Link to JavaScript that contains smart contract functions -->
     <script src="src/functions.js"></script>
-
-    <!-- Include the ABI of the smart contract -->
-    <script>
-        const abi = require('./src/abi.json');  // Load the smart contract ABI from the JSON file
-    </script>
-
 </body>
-                                     </html>
+</html>
