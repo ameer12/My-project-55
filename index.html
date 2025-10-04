@@ -1,34 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Asset Management DApp</title>
-    <link rel="stylesheet" href="styles/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Asset Management DApp</title>
+  <link rel="stylesheet" href="styles/style.css" />
 </head>
 <body>
 
-    <header>
-        <h1>Asset Management Smart Contract</h1>
-    </header>
+  <header>
+    <h1>Asset Management Smart Contract</h1>
+  </header>
 
-    <main>
-        <button id="connectWallet">Connect Wallet</button>
-        <br><br>
+  <main>
+    <button id="connectWallet">Connect Wallet</button>
+    <br /><br />
 
-        <button id="approveToken">Approve Token</button>
-        <button id="transferFunds">Transfer Funds</button>
-        <button id="getAttestation">Get AML Report</button>
+    <button id="approveToken">Approve Token</button>
+    <button id="transferFunds">Transfer Funds</button>
+    <button id="getAttestation">Get AML Report</button>
 
-        <div id="status"></div>
-    </main>
+    <div id="status" style="margin-top:20px; font-weight:bold;"></div>
+  </main>
 
-    <footer>
-        <p>&copy; 2025 Asset Manager DApp</p>
-    </footer>
+  <footer>
+    <p>&copy; 2025 Asset Manager DApp</p>
+  </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
-    <script src="src/wallet.js"></script>
-    <script src="src/functions.js"></script>
+  <!-- ✅ Load ethers.js before your wallet and functions scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.min.js"></script>
+
+  <!-- ✅ Load scripts in correct order -->
+  <script src="src/wallet.js"></script>
+  <script src="src/functions.js"></script>
+
+  <!-- ✅ Ensure all scripts load after DOM -->
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      console.log("✅ DApp loaded successfully");
+      const connectBtn = document.getElementById('connectWallet');
+      if (connectBtn) {
+        connectBtn.addEventListener('click', async () => {
+          const account = await window.app.connect();
+          if (account) {
+            document.getElementById('status').innerText = 'Connected: ' + account;
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
